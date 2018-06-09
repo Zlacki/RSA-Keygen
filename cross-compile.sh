@@ -1,0 +1,14 @@
+GOOS=openbsd GOARCH=amd64 GOBIN=~/go/src/RSA_Keygen/bin/target/openbsd/64/ go install ./rsa_keygen.go
+GOOS=openbsd GOARCH=386 GOBIN=~/go/src/RSA_Keygen/bin/target/openbsd/32/ go install ./rsa_keygen.go
+GOOS=darwin GOARCH=386 GOBIN=~/go/src/RSA_Keygen/bin/target/darwin/32/ go install ./rsa_keygen.go
+GOOS=darwin GOARCH=amd64 GOBIN=~/go/src/RSA_Keygen/bin/target/darwin/64/ go install ./rsa_keygen.go
+GOOS=netbsd GOARCH=amd64 GOBIN=~/go/src/RSA_Keygen/bin/target/netbsd/64/ go install ./rsa_keygen.go
+GOOS=netbsd GOARCH=386 GOBIN=~/go/src/RSA_Keygen/bin/target/netbsd/32/ go install ./rsa_keygen.go
+GOOS=freebsd GOARCH=386 GOBIN=~/go/src/RSA_Keygen/bin/target/freebsd/32/ go install ./rsa_keygen.go
+GOOS=freebsd GOARCH=amd64 GOBIN=~/go/src/RSA_Keygen/bin/target/freebsd/64/ go install ./rsa_keygen.go
+GOOS=windows GOARCH=386 GOBIN=~/go/src/RSA_Keygen/bin/target/windows/32/ go install ./rsa_keygen.go
+GOOS=windows GOARCH=amd64 GOBIN=~/go/src/RSA_Keygen/bin/target/windows/64/ go install ./rsa_keygen.go
+GOOS=linux GOARCH=386 GOBIN=~/go/src/RSA_Keygen/bin/target/linux/32/ go install ./rsa_keygen.go
+GOOS=linux GOARCH=amd64 GOBIN=~/go/src/RSA_Keygen/bin/target/linux/64/ go install ./rsa_keygen.go
+GOOS=solaris GOARCH=amd64 GOBIN=~/go/src/RSA_Keygen/bin/target/solaris/64/ go install ./rsa_keygen.go
+GOOS=solaris GOARCH=386 GOBIN=~/go/src/RSA_Keygen/bin/target/solaris/32/ go install ./rsa_keygen.go
