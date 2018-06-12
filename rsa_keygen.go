@@ -4,7 +4,6 @@ import (
 	"crypto/rand"
 	"crypto/rsa"
 	"crypto/x509"
-	"encoding/asn1"
 	"encoding/gob"
 	"encoding/pem"
 	"flag"
@@ -25,17 +24,27 @@ func main() {
 
 func saveGobKey(fileName string, key interface{}) {
 	outFile, err := os.Create(fileName)
-	checkError(err)
+	if err != nil {
+		fmt.Printf("ERROR:saveGobKey(can not create file?  Here's why...):\n%s\n", err.Error())
+		/* I guess we'll kill the whole application at this moment. */
+		os.Exit(1)
+	}
 	defer outFile.Close()
 
 	encoder := gob.NewEncoder(outFile)
 	err = encoder.Encode(key)
-	checkError(err)
+	if err != nil {
+		fmt.Printf("ERROR:saveGobKey(Can not encode the key?  Here's why...):\n%s\n", err.Error())
+		os.Exit(1)
+	}
 }
 
 func savePrivatePEMKey(fileName string, key *rsa.PrivateKey) {
 	outFile, err := os.Create(fileName)
-	checkError(err)
+	if err != nil {
+		fmt.Printf("ERROR:savePrivatePEMKey(Can not create the file?  Here's why...):\n%s\n", err.Error())
+		os.Exit(1)
+	}
 	defer outFile.Close()
 
 	var privateKey = &pem.Block{
@@ -44,12 +53,18 @@ func savePrivatePEMKey(fileName string, key *rsa.PrivateKey) {
 	}
 
 	err = pem.Encode(outFile, privateKey)
-	checkError(err)
+	if err != nil {
+		fmt.Printf("ERROR:savePrivatePEMKey(Could not encode private key?  Here's why...):\n%s\n", err.Error())
+		os.Exit(1)
+	}
 }
 
 func savePublicPEMKey(fileName string, pubkey rsa.PublicKey) {
-	asn1Bytes, err := asn1.Marshal(pubkey)
-	checkError(err)
+	asn1Bytes, err := x509.MarshalPKIXPublicKey(&pubkey)
+	if err != nil {
+		fmt.Printf("ERROR:savePublicPEMKey(Can not create the file?  Here's why...):\n%s\n", err.Error())
+		os.Exit(1)
+	}
 
 	var pemkey = &pem.Block{
 		Type:  "PUBLIC KEY",
@@ -57,16 +72,15 @@ func savePublicPEMKey(fileName string, pubkey rsa.PublicKey) {
 	}
 
 	pemfile, err := os.Create(fileName)
-	checkError(err)
+	if err != nil {
+		fmt.Printf("ERROR:savePublicPEMKey(Can not create the file?  Here's why...):\n%s\n", err.Error())
+		os.Exit(1)
+	}
 	defer pemfile.Close()
 
 	err = pem.Encode(pemfile, pemkey)
-	checkError(err)
-}
-
-func checkError(err error) {
 	if err != nil {
-		fmt.Println("Fatal error ", err.Error())
+		fmt.Printf("ERROR:savePublicPEMKey(Can not encode the file?  Here's why...):\n%s\n", err.Error())
 		os.Exit(1)
 	}
 }
