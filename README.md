@@ -12,7 +12,7 @@ This should create a binary file, which is the binary file for the RSA key gener
 On UNIX-like systems, you just open a terminal, and find the directory it's located at, and run it by typing: `./rsa_keygen`.  Windows is similar I presume, just that it's cmd.exe and not a terminal (emulator) you'd be browsing for and running this executable binary file with.
 
 ### Usage
-``` sh
+```
 $ ./rsa_keygen -h
 Usage of ./bin/target/linux/64/rsa_keygen:
   -keylength int
