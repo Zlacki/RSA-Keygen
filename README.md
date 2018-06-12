@@ -4,7 +4,7 @@ With that being said, I'd decided to make an RSA key generator for the purpose o
 This code should be fully portable to all major operating systems(Linux, Solaris, Windows, MacOS, the variety of BSD flavors, and I mean hell, Golang is so portable that it could probably be ported to Android and iOS with very little effort, though I'm not sure the identical codebase would be used as it is across the ones I'd just mentioned.
 
 ## Building
-To compile it, start by downloading the Golang SDK and all the Golang utilities. Next, find the directory within which my project [RSA_Keygen] resides at, then run this command in your terminal emulator of choice:
+To compile it, start by downloading the Golang SDK and all the Golang utilities. Next, find the directory within which my project [RSA_Keygen](https://github.com/Zlacki/RSA-Keygen) resides at, then run this command in your terminal emulator of choice:
 `go build`
 In the directory where the `rsa.go` file is located.
 
