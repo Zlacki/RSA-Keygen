@@ -24,7 +24,7 @@ Usage of ./rsa-test:
 Well, OKAY everybody!!  This work is distributed under the WTFPLv2.  It's basically public domain, but without being public domain.  Copyleft sort of licensing, and I've always been more or less a big fan of it, and for a mildly more restrictive license, ISC or MIT has been my ones of choice over past few years.  For this though, definitely WTFPLv2 as it's not very advanced and truthfully took me like 15 minutes to make it, while being brand new at the language.
 
 
-DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE
+`DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE
 Version 2, December 2004
 
 Copyright (C) 2018 Zachariah Knight <aeros.storkpk@gmail.com>
@@ -37,4 +37,4 @@ DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE
 
 TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
 
-0. You just DO WHAT THE FUCK YOU WANT TO.
+0. You just DO WHAT THE FUCK YOU WANT TO.`
