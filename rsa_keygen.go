@@ -9,11 +9,25 @@ import (
 	"flag"
 	"fmt"
 	"os"
+	"strconv"
 )
 
 func main() {
-	var maxBitLen = flag.Int("keylength", 1024, "Max length of key/modulus in bits")
+	var maxBitLen = flag.Int("keylength", -1, "Max length of key/modulus in bits")
 	flag.Parse()
+	if *maxBitLen == -1 && len(os.Args) > 1 {
+		newBitLen, _ := strconv.Atoi(os.Args[1])
+		maxBitLen = &newBitLen
+	} else if *maxBitLen == -1 {
+		newBitLen := 1024
+		maxBitLen = &newBitLen
+	}
+
+	if *maxBitLen < 1024 || *maxBitLen > 4096 {
+		fmt.Println("Error: Bit length must be between 1024 bits and 4096 bits")
+		os.Exit(1)
+	}
+
 	fmt.Printf("Generating RSA keys of: %d bits, please wait...\n", *maxBitLen)
 
 	keyPair, _ := rsa.GenerateMultiPrimeKey(rand.Reader, 6, *maxBitLen)
