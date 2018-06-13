@@ -19,7 +19,6 @@ function cleanBinaries() {
 function buildBinaries() {
     local arch=$1
     local os=$2
-    local osName=$3
     local shortArch='64'
     local binSuffix=''
 
@@ -33,21 +32,21 @@ function buildBinaries() {
         binSuffix='.exe'
     fi
 
-    echo -n "Building $BINARY_NAME for $osName/$shortArch dir(bin/target/$os/$shortArch/$BINARY_NAME$binSuffix)..."
-    GOARCH=$arch GOOS=$os go build -o "bin/target/$os/$shortArch/$BINARY_NAME$binSuffix"
+    echo -n "Building $BINARY_NAME for $os/$shortArch (dest='./bin/target/$os/$shortArch/$BINARY_NAME$binSuffix')..."
+    GOARCH=$arch GOOS=$os go build -o "./bin/target/$os/$shortArch/$BINARY_NAME$binSuffix"
     echo 'done'
 }
 
-buildBinaries 386 linux Linux
-buildBinaries amd64 linux Linux
-buildBinaries 386 openbsd OpenBSD
-buildBinaries amd64 openbsd OpenBSD
-buildBinaries 386 freebsd FreeBSD
-buildBinaries amd64 freebsd FreeBSD
-buildBinaries 386 netbsd NetBSD
-buildBinaries amd64 netbsd NetBSD
-buildBinaries 386 darwin 'MacOS/Darwin'
-buildBinaries amd64 darwin 'MacOS/Darwin'
-buildBinaries amd64 solaris 'Solaris based systems'
-buildBinaries 386 windows Windows
-buildBinaries amd64 windows Windows
+# clean house
+cleanBinaries
+
+# build house
+for os in linux openbsd freebsd netbsd darwin solaris windows; do
+    if [[ $os != 'solaris' ]]; then
+        buildBinaries 386 $os
+    fi
+    buildBinaries amd64 $os
+    echo
+done
+
+echo "Compilation for all of the platforms has completed.  Goodbye."
