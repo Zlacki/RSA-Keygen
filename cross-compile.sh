@@ -1,35 +1,45 @@
 #!/bin/bash
 
-# CLEAN ALL TARGET BINS
-echo -n 'Cleaning old binaries...'
-find ./bin -iname 'rsa_keygen*' -delete
+# Set the name of the binary file to create
+BINARY_NAME='rsakey'
+
+
+# Clean the old binaries.  Might be unnecessary, not sure.
+echo -n "Cleaning old $BINARY_NAME binaries..."
+find ./bin -iname "$BINARY_NAME*" -delete
 echo 'done'
 
-# BUILD NEW TARGET BINS, LOTS OF THEM
-echo -n 'Building binaries for OpenBSD...'
-GOARCH=amd64 GOOS=openbsd go build -o bin/target/openbsd/64/rsa_keygen
-GOARCH=386 GOOS=openbsd go build -o bin/target/openbsd/32/rsa_keygen
-echo 'done'
-echo -n 'Building binaries for Darwin/MacOSX...'
-GOARCH=amd64 GOOS=darwin go build -o bin/target/darwin/64/rsa_keygen
-GOARCH=386 GOOS=darwin go build -o bin/target/darwin/32/rsa_keygen
-echo 'done'
-echo -n 'Building binaries for NetBSD...'
-GOARCH=amd64 GOOS=netbsd go build -o bin/target/netbsd/64/rsa_keygen
-GOARCH=386 GOOS=netbsd go build -o bin/target/netbsd/32/rsa_keygen
-echo 'done'
-echo -n 'Building binaries for FreeBSD...'
-GOARCH=amd64 GOOS=freebsd go build -o bin/target/freebsd/64/rsa_keygen
-GOARCH=386 GOOS=freebsd go build -o bin/target/freebsd/32/rsa_keygen
-echo 'done'
-echo -n 'Building binaries for Windows...'
-GOARCH=amd64 GOOS=windows go build -o bin/target/windows/64/rsa_keygen.exe
-GOARCH=386 GOOS=windows go build -o bin/target/windows/32/rsa_keygen.exe
-echo 'done'
-echo -n 'Building binaries for Linux...'
-GOARCH=amd64 GOOS=linux go build -o bin/target/linux/64/rsa_keygen
-GOARCH=386 GOOS=linux go build -o bin/target/linux/32/rsa_keygen
-echo 'done'
-echo -n 'Building binaries for (Open)(Solaris|Indiana) (amd64 only)...'
-GOARCH=amd64 GOOS=solaris go build -o bin/target/solaris/64/rsa_keygen
-echo 'done'
+function buildBinaries() {
+    local arch=$1
+    local os=$2
+    local osName=$3
+    local shortArch='64'
+    local binSuffix=''
+
+    if [[ $arch = 'amd64' ]]; then
+        shortArch='64'
+    else
+        shortArch='32'
+    fi
+
+    if [[ $os = 'windows' ]]; then
+        binSuffix='.exe'
+    fi
+
+    echo -n "Building $BINARY_NAME for $osName/$shortArch(bin/target/$os/$shortArch/$BINARY_NAME$binSuffix)..."
+    GOARCH=$arch GOOS=$os go build -o "bin/target/$os/$shortArch/$BINARY_NAME$binSuffix"
+    echo 'done'
+}
+buildBinaries 386 linux Linux
+buildBinaries amd64 linux Linux
+buildBinaries 386 openbsd OpenBSD
+buildBinaries amd64 openbsd OpenBSD
+buildBinaries 386 freebsd FreeBSD
+buildBinaries amd64 freebsd FreeBSD
+buildBinaries 386 netbsd NetBSD
+buildBinaries amd64 netbsd NetBSD
+buildBinaries 386 darwin 'MacOS/Darwin'
+buildBinaries amd64 darwin 'MacOS/Darwin'
+buildBinaries amd64 solaris 'Solaris based systems'
+buildBinaries 386 windows Windows
+buildBinaries amd64 windows Windows
