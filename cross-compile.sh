@@ -1,14 +1,21 @@
 #!/bin/bash
 
-# Set the name of the binary file to create
+# Set the name of the binary file to create, global var
 BINARY_NAME='rsakey'
 
 
 # Clean the old binaries.  Might be unnecessary, not sure.
-echo -n "Cleaning old $BINARY_NAME binaries..."
-find ./bin -iname "$BINARY_NAME*" -delete
-echo 'done'
+function cleanBinaries() {
+    echo -n "Cleaning old $BINARY_NAME binaries..."
+    find ./bin/ -executable -xtype f -delete
+    echo 'done'
+}
 
+# Build new binaries.  Takes 3 arguments.
+#
+# arg1(arch): the target platforms architecture
+# arg2(os): the target platforms operating system
+# arg3(osName): human-readable version of the OS name, for printing messages
 function buildBinaries() {
     local arch=$1
     local os=$2
@@ -26,10 +33,11 @@ function buildBinaries() {
         binSuffix='.exe'
     fi
 
-    echo -n "Building $BINARY_NAME for $osName/$shortArch(bin/target/$os/$shortArch/$BINARY_NAME$binSuffix)..."
+    echo -n "Building $BINARY_NAME for $osName/$shortArch dir(bin/target/$os/$shortArch/$BINARY_NAME$binSuffix)..."
     GOARCH=$arch GOOS=$os go build -o "bin/target/$os/$shortArch/$BINARY_NAME$binSuffix"
     echo 'done'
 }
+
 buildBinaries 386 linux Linux
 buildBinaries amd64 linux Linux
 buildBinaries 386 openbsd OpenBSD
